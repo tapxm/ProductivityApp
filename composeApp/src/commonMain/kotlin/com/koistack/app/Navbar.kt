@@ -22,8 +22,7 @@ object Navbar {
     @Composable
     fun setNavBar(){
         Row(
-            modifier = Modifier.fillMaxWidth()
-                .padding(10.dp),
+            modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
         ){
