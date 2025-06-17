@@ -13,7 +13,7 @@ class TaskController(
         val taskList = mutableListOf<Task>();
     }
 
-    val allTasks = TaskRepo.taskList;
+    private val allTasks = TaskRepo.taskList;
     
     fun createTask(title: String?, description: String?){
         val newTask:Task = Task(
