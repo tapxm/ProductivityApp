@@ -1,0 +1,184 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "839d2cdcc07fb50ae2bd0137e487e8b2",
+    "entities": [
+      {
+        "tableName": "Task",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`taskId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `taskTitle` TEXT NOT NULL, `taskDescription` TEXT, `taskDueDate` TEXT NOT NULL, `categoryId` INTEGER, `taskIsDone` INTEGER NOT NULL, FOREIGN KEY(`categoryId`) REFERENCES `Category`(`categoryId`) ON UPDATE CASCADE ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "taskId",
+            "columnName": "taskId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "taskTitle",
+            "columnName": "taskTitle",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "taskDescription",
+            "columnName": "taskDescription",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "taskDueDate",
+            "columnName": "taskDueDate",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "categoryId",
+            "columnName": "categoryId",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "taskIsDone",
+            "columnName": "taskIsDone",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "taskId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_Task_categoryId",
+            "unique": false,
+            "columnNames": [
+              "categoryId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Task_categoryId` ON `${TABLE_NAME}` (`categoryId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "Category",
+            "onDelete": "CASCADE",
+            "onUpdate": "CASCADE",
+            "columns": [
+              "categoryId"
+            ],
+            "referencedColumns": [
+              "categoryId"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "Category",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`categoryId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `categoryTitle` TEXT NOT NULL, `categoryDescription` TEXT, `categoryImageName` TEXT NOT NULL, `categoryIsDone` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "categoryId",
+            "columnName": "categoryId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "categoryTitle",
+            "columnName": "categoryTitle",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "categoryDescription",
+            "columnName": "categoryDescription",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "categoryImageName",
+            "columnName": "categoryImageName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "categoryIsDone",
+            "columnName": "categoryIsDone",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "categoryId"
+          ]
+        }
+      },
+      {
+        "tableName": "SubTask",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`subTaskId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `subTaskTitle` TEXT NOT NULL, `taskId` INTEGER NOT NULL, `subTaskIsDone` INTEGER NOT NULL, FOREIGN KEY(`taskId`) REFERENCES `Task`(`taskId`) ON UPDATE CASCADE ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "subTaskId",
+            "columnName": "subTaskId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "subTaskTitle",
+            "columnName": "subTaskTitle",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "taskId",
+            "columnName": "taskId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "subTaskIsDone",
+            "columnName": "subTaskIsDone",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "subTaskId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_SubTask_taskId",
+            "unique": false,
+            "columnNames": [
+              "taskId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_SubTask_taskId` ON `${TABLE_NAME}` (`taskId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "Task",
+            "onDelete": "CASCADE",
+            "onUpdate": "CASCADE",
+            "columns": [
+              "taskId"
+            ],
+            "referencedColumns": [
+              "taskId"
+            ]
+          }
+        ]
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '839d2cdcc07fb50ae2bd0137e487e8b2')"
+    ]
+  }
+}
