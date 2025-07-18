@@ -8,10 +8,11 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.Dp
 import kotlinx.coroutines.CoroutineScope
 
 @Composable
-fun OverviewPage() {
+fun OverviewPage(bottomAppBarHeight: Dp) {
     Column(
         modifier = Modifier
             .fillMaxSize()

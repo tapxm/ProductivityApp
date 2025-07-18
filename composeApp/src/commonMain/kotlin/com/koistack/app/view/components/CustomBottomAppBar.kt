@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.indication
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
@@ -40,6 +41,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.min
 import androidx.compose.ui.unit.sp
 import com.koistack.app.utils.ColorTheme
 import com.koistack.app.utils.CutOutShape
@@ -59,6 +61,7 @@ fun BoxScope.CustomBottomAppBar(
     navItem3: Pair<String, ImageVector>,
     navItem4: Pair<String, ImageVector>,
     navItemIconSize: Dp,
+    navItemFontSize: TextUnit,
     buttonSize: Dp,
     bottomPadding: Dp
 ) {
@@ -102,11 +105,13 @@ fun BoxScope.CustomBottomAppBar(
 
             NavItem(
                 itemTitleToIcon = navItem1,
-                iconSize = navItemIconSize
+                iconSize = navItemIconSize,
+                fontSize = navItemFontSize
             )
             NavItem(
                 itemTitleToIcon = navItem2,
-                iconSize = navItemIconSize
+                iconSize = navItemIconSize,
+                fontSize = navItemFontSize
             )
 
             Spacer(
@@ -118,11 +123,14 @@ fun BoxScope.CustomBottomAppBar(
 
             NavItem(
                 itemTitleToIcon = navItem3,
-                iconSize = navItemIconSize
+                iconSize = navItemIconSize,
+                fontSize = navItemFontSize
             )
             NavItem(
                 itemTitleToIcon = navItem4,
-                iconSize = navItemIconSize
+                iconSize = navItemIconSize,
+                fontSize = navItemFontSize
+
             )
         }
 
@@ -166,7 +174,8 @@ fun BoxScope.CustomBottomAppBar(
 @Composable
 private fun RowScope.NavItem(
     itemTitleToIcon: Pair<String, ImageVector>,
-    iconSize: Dp
+    iconSize: Dp,
+    fontSize: TextUnit
 ) {
 
     Column(
@@ -177,6 +186,8 @@ private fun RowScope.NavItem(
             .fillMaxHeight()
             .background(color = COLOR_THEME.topBackground)
             .clickable(
+                indication = null,
+                interactionSource = null,
                 onClick = {
                     NAVIGATION.setNewPosition(itemTitleToIcon.first)
                 }
@@ -189,12 +200,18 @@ private fun RowScope.NavItem(
             colorFilter = ColorFilter.tint(COLOR_THEME.text),
             modifier = Modifier
                 .size(iconSize)
-
+                .fillMaxSize()
+                .padding(
+                    min(
+                        a = iconSize / 10,
+                        b = 10.dp
+                    )
+                )
         )
 
         Text(
             text = itemTitleToIcon.first,
-            fontSize = 10.sp,
+            fontSize = fontSize,
             color = COLOR_THEME.text
         )
 
