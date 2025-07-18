@@ -5,6 +5,9 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
+import productivityapp.composeapp.generated.resources.Res
+import productivityapp.composeapp.generated.resources.default_category_image
+import productivityapp.composeapp.generated.resources.default_category_title
 
 
 //Added foreign key to map the 1-to-Many relationship of Category-to-Task
@@ -34,6 +37,10 @@ data class Task(
     So full table scans aren't triggered whenever the parent table changes*/
     /*Our Foreign Key (categoryId) is linked to a Category object - can be null because a task can exist without a category*/
     var categoryId: Int? = null,
+
+    var categoryTitle: String? = null,
+
+    var categoryImageName: String = Res.string.default_category_image.toString(),
 
     var taskIsDone: Boolean = false,
 //    @Ignore

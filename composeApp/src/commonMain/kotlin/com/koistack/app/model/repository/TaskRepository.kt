@@ -4,10 +4,14 @@ import com.koistack.app.model.local.ProductivityAppDatabase
 import com.koistack.app.model.local.entities.SubTask
 import com.koistack.app.model.local.entities.Task
 import kotlinx.coroutines.flow.Flow
+import productivityapp.composeapp.generated.resources.Res
+import productivityapp.composeapp.generated.resources.default_category_image
 
 //Handles the CRUD logic for tasks
 
 class TaskRepository(database: ProductivityAppDatabase) {
+
+    private val categoryDao = database.getCategoryDao()
 
     private val taskDao = database.getTaskDao()
 
@@ -25,12 +29,20 @@ class TaskRepository(database: ProductivityAppDatabase) {
             taskDescription = taskDescription,
         )
 
-        taskDueDate?.let{
+        taskDueDate?.let {
             taskToAdd.taskDueDate = taskDueDate
         }
 
         categoryId?.let {
-            taskToAdd.categoryId = categoryId
+
+            val categoryForTask = categoryDao.getCategoryById(it)
+
+            taskToAdd.categoryId = categoryForTask.categoryId
+
+            taskToAdd.categoryTitle = categoryForTask.categoryTitle
+
+            taskToAdd.categoryImageName = categoryForTask.categoryImageName
+
         }
 
         taskDao.upsertTask(taskToAdd)
@@ -64,26 +76,45 @@ class TaskRepository(database: ProductivityAppDatabase) {
         taskDescription: String? = null,
         taskDueDate: String? = null,
         categoryId: Int? = null,
-        taskIsDone: Boolean? = null
+        taskIsDone: Boolean? = null,
+        removeCategory: Boolean = false
     ) {
         val taskToUpdate = taskDao.getTaskById(taskId)
 
-        if (taskTitle != null) {
-            taskToUpdate.taskTitle = taskTitle
-        }
-        if (taskDescription != null) {
-            taskToUpdate.taskDescription = taskDescription
-        }
-        if (taskDueDate != null) {
-            taskToUpdate.taskDueDate = taskDueDate
-        }
-        if (categoryId != null) {
-            taskToUpdate.categoryId = categoryId
-        }
-        if (taskIsDone != null) {
-            taskToUpdate.taskIsDone = taskIsDone
+        taskTitle?.let {
+            taskToUpdate.taskTitle = it
         }
 
+        taskDescription?.let {
+            taskToUpdate.taskDescription = it
+        }
+
+        taskDueDate?.let {
+            taskToUpdate.taskDueDate = it
+        }
+
+        taskIsDone?.let {
+            taskToUpdate.taskIsDone = it
+        }
+
+        categoryId?.let {
+
+            val categoryForTask = categoryDao.getCategoryById(it)
+
+            taskToUpdate.categoryId = it
+
+            taskToUpdate.categoryTitle = categoryForTask.categoryTitle
+
+            taskToUpdate.categoryImageName = categoryForTask.categoryImageName
+        }
+
+        if (removeCategory) {
+            taskToUpdate.categoryId = null
+
+            taskToUpdate.categoryTitle = null
+
+            taskToUpdate.categoryImageName = Res.string.default_category_image.toString()
+        }
     }
 
     //    Delete

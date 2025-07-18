@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "839d2cdcc07fb50ae2bd0137e487e8b2",
+    "identityHash": "8167ddab7295e0bc054e6fedc1dd28c6",
     "entities": [
       {
         "tableName": "Task",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`taskId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `taskTitle` TEXT NOT NULL, `taskDescription` TEXT, `taskDueDate` TEXT NOT NULL, `categoryId` INTEGER, `taskIsDone` INTEGER NOT NULL, FOREIGN KEY(`categoryId`) REFERENCES `Category`(`categoryId`) ON UPDATE CASCADE ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`taskId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `taskTitle` TEXT NOT NULL, `taskDescription` TEXT, `taskDueDate` TEXT NOT NULL, `categoryId` INTEGER, `categoryTitle` TEXT, `categoryImageName` TEXT NOT NULL, `taskIsDone` INTEGER NOT NULL, FOREIGN KEY(`categoryId`) REFERENCES `Category`(`categoryId`) ON UPDATE CASCADE ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "taskId",
@@ -35,6 +35,17 @@
             "fieldPath": "categoryId",
             "columnName": "categoryId",
             "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "categoryTitle",
+            "columnName": "categoryTitle",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "categoryImageName",
+            "columnName": "categoryImageName",
+            "affinity": "TEXT",
+            "notNull": true
           },
           {
             "fieldPath": "taskIsDone",
@@ -178,7 +189,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '839d2cdcc07fb50ae2bd0137e487e8b2')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '8167ddab7295e0bc054e6fedc1dd28c6')"
     ]
   }
 }
