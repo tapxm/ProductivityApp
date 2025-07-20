@@ -4,7 +4,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.indication
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
@@ -13,8 +12,6 @@ import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -22,10 +19,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeContent
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -33,19 +28,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.min
-import androidx.compose.ui.unit.sp
 import com.koistack.app.utils.ColorTheme
 import com.koistack.app.utils.CutOutShape
-import com.koistack.app.utils.Measurements
 import com.koistack.app.utils.Navigation
 
 ///CONSTANTS
@@ -63,11 +53,10 @@ fun BoxScope.CustomBottomAppBar(
     navItemIconSize: Dp,
     navItemFontSize: TextUnit,
     buttonSize: Dp,
-    bottomPadding: Dp
+    bottomPadding: Dp,
+    onButtonClick: () -> Unit,
 ) {
 
-    val measurements = Measurements.get()
-    val safeBottomPadding = measurements.safeContentPaddingBottom / 2
 
     //This BottomNavBar is expected to sit inside of a Box Layout
     //Thus the very first modification is to align it BottomCentre!
@@ -116,6 +105,7 @@ fun BoxScope.CustomBottomAppBar(
 
             Spacer(
                 modifier = Modifier
+                    .padding(0.dp)
                     .weight(1f)
                     .fillMaxHeight()
                     .background(color = COLOR_THEME.topBackground)
@@ -149,11 +139,7 @@ fun BoxScope.CustomBottomAppBar(
                 )
                 .background(color = COLOR_THEME.mainAccentColor)
                 .clickable(
-                    onClick = {
-                        TODO(
-                            "Add Task addition Screen"
-                        )
-                    }
+                    onClick = onButtonClick
                 )
 
         ) {
@@ -162,7 +148,7 @@ fun BoxScope.CustomBottomAppBar(
                 contentDescription = null,
                 colorFilter = ColorFilter.tint(COLOR_THEME.text),
                 modifier = Modifier
-                    .fillMaxSize(0.8f),
+                    .fillMaxSize(),
             )
         }
 
@@ -210,6 +196,8 @@ private fun RowScope.NavItem(
         )
 
         Text(
+            modifier = Modifier
+                .padding(0.dp),
             text = itemTitleToIcon.first,
             fontSize = fontSize,
             color = COLOR_THEME.text

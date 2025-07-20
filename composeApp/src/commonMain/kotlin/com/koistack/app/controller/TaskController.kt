@@ -21,8 +21,10 @@ class TaskController: ViewModel() {
     fun onPressChangeTheme(){
         ColorTheme.setColorTheme(
             setToDarkMode = !ColorTheme.inDarkMode,
-            setColorThemeHue = null
+            setColorThemeHue = 10f
         )
     }
+
+
 
 }

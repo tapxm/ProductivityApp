@@ -13,6 +13,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -22,18 +23,13 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.koistack.app.controller.RepositoryProvider
+import com.koistack.app.model.local.entities.Task
 import com.koistack.app.model.repository.TaskRepository
 import com.koistack.app.utils.ColorTheme
 import com.koistack.app.view.components.TaskCard
 
 @Composable
-fun TaskListPage(bottomAppBarHeight: Dp) {
-
-    val taskRepository: TaskRepository = RepositoryProvider.taskRepository
-
-    val taskListFlow = taskRepository.getAllTasks()
-
-    val taskList by taskListFlow.collectAsStateWithLifecycle(initialValue = emptyList())
+fun TaskListPage(bottomAppBarHeight: Dp, taskList: List<Task>) {
 
     //Column with all the tasks displayed
     Column {
